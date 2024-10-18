@@ -1,5 +1,2 @@
 make:
-    g++ -o ./a.out ./src/hello_triangle.cpp ./src/glad.c -ldl -lglfw -I ./include
-
-clean:
-    rm ./a.out
+	g++ -o ./a.out ./src/main.c ./src/glad.c -ldl -lglfw -I ./include

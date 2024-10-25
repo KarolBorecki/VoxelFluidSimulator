@@ -1,7 +1,4 @@
-//------- Ignore this ----------
-#include <filesystem>
-namespace fs = std::filesystem;
-//------------------------------
+#define GLM_ENABLE_EXPERIMENTAL
 
 #include <iostream>
 #include <glad/glad.h>
@@ -18,8 +15,8 @@ namespace fs = std::filesystem;
 #include "EBO.h"
 #include "Camera.h"
 
-const unsigned int width = 800;
-const unsigned int height = 800;
+const unsigned int width = 1400;
+const unsigned int height = 1000;
 
 // Vertices coordinates
 GLfloat vertices[] =
@@ -83,6 +80,12 @@ GLuint lightIndices[] =
 		1, 4, 0,
 		4, 5, 6,
 		4, 6, 7};
+
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+	// Adjust the viewport according to the new window dimensions
+	glViewport(0, 0, width, height);
+}
 
 int main()
 {
@@ -173,11 +176,8 @@ int main()
 	 * folder and then give a relative path from this folder to whatever resource you want to get to.
 	 * Also note that this requires C++17, so go to Project Properties, C/C++, Language, and select C++17
 	 */
-	std::string parentDir = (fs::current_path().fs::path::parent_path()).string();
-	std::string texPath = "/Resources/YoutubeOpenGL 7 - Going 3D/";
-
 	// Texture
-	Texture brickTex("/home/kawakey/repo/opengl-tutorials-main/Resources/YoutubeOpenGL 7 - Going 3D/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture brickTex("./resources/textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	brickTex.texUnit(shaderProgram, "tex0", 0);
 
 	// Original code from the tutorial
@@ -189,6 +189,8 @@ int main()
 
 	// Creates camera object
 	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
